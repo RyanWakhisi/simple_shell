@@ -30,11 +30,11 @@ exit - command that exits a simple shell
 env - command that list current environment variables
 pwd - command that prints the path of the current working directory.
 
-Delimiters & Comment Commands
+### Delimiters & Comment Commands
 
 Semicolon(;) - serves as a command seperator that enables the execution of multiple commands on a single line by placing the semicolon between each command.
 Harsh - Using a word starting with a harsh symbol in a CLI, designates the rest of the characters on that line as a comment, causing them to be ignored when the command is executed.
 
-Authors File
+### Authors File
 
 This file will contain the names of all contributors towards this simple shell project.
