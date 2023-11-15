@@ -1,6 +1,21 @@
 #include "main.h"
 
 /**
+ * str_len - A function to Return the str length
+ * @s: char pointer
+ * Return: Always 0.
+ */
+int str_len(const char *s)
+{
+	int len;
+
+	for (len = 0; s[len] != 0; len++)
+	{
+	}
+	return (len);
+}
+
+/**
 
  * exec_exit_shell - A function to exit the shell
  * @shell_dt: exe_status and argum data

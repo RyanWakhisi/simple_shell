@@ -18,20 +18,7 @@ char *string_duplicate(const char *s)
 	return (new);
 }
 
-/**
- * str_len - A function to Return the str length
- * @s: char pointer
- * Return: Always 0.
- */
-int str_len(const char *s)
-{
-	int len;
 
-	for (len = 0; s[len] != 0; len++)
-	{
-	}
-	return (len);
-}
 
 /**
  * str_compare_chars - A function that compares chars of strings
