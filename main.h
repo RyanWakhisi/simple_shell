@@ -16,80 +16,43 @@
 #define TOK_BUFSIZE 128
 #define TOK_DELIM " \t\r\n\a"
 
-/* is a variable pointing to an array of pointers to strings called the "environment" */
 extern char **environ;
 
-
-/**
- * struct data - it is a structure that contains all relevant data on runtime
- * @av: is an argument vector
- * @input: is a command line written by the user
- * @args: are the tokens of the command line
- * @status: is the last status of the shell
- * @counter: is the lines counter
- * @_environ: the environment variable
- * @pid: the process ID of the shell
- */
-typedef struct data
-{
-	char **av;
-	char *input;
-	char **args;
-	int status;
-	int counter;
-	char **_environ;
-	char *pid;
-} data_shell;
-
-/**
- * struct sep_list_s - single linked list
- * @separator: ; | &
- * @next: next node
- * Description: single linked list to store separators
- */
 typedef struct sep_list_s
 {
-	char separator;
-	struct sep_list_s *next;
+    char separator;
+    struct sep_list_s *next;
 } sep_list;
 
-/**
- * struct line_list_s - single linked list
- * @line: command line
- * @next: next node
- * Description: single linked list to store command lines
- */
 typedef struct line_list_s
 {
-	char *line;
-	struct line_list_s *next;
+    char *line;
+    struct line_list_s *next;
 } line_list;
 
-/**
- * struct r_var_list - single linked list
- * @len_var: length of the variable
- * @val: value of the variable
- * @len_val: length of the value
- * @next: next node
- * Description: single linked list to store variables
- */
+typedef struct data
+{
+    char **av;
+    char *input;
+    char **args;
+    int status;
+    int counter;
+    char **_environ;
+    char *pid;
+} data_shell;
+
 typedef struct r_var_list
 {
-	int len_var;
-	char *val;
-	int len_val;
-	struct r_var_list *next;
+    int len_var;
+    char *val;
+    int len_val;
+    struct r_var_list *next;
 } r_var;
 
-/**
- * struct builtin_s - Builtin struct for command args.
- * @name: The name of the command builtin i.e cd, exit, env
- * @f: data type pointer function.
- */
 typedef struct builtin_s
 {
-	char *name;
-	int (*f)(data_shell *datash);
+    char *name;
+    int (*f)(data_shell *datash);
 } builtin_t;
 
 char *shell_char_swap(char *input, int bool);
@@ -106,7 +69,7 @@ char *shell_line_reader(int *i_eof);
 char *shell_no_arguments(char *in);
 void shell_loop_through_data(data_shell *datash);
 void shell_get_sigint(int sig);
-void shell_retrive_line(char **lineptr, size_t *n, char *buffer, size_t j);
+void shell_retrieve_line(char **lineptr, size_t *n, char *buffer, size_t j);
 int shell_get_error(data_shell *datash, int eval);
 int (*shell_get_builtins(char *cmd))(data_shell *);
 void shell_free_data_held(data_shell *datash);
@@ -118,12 +81,12 @@ char *shell_strconcatcat_cd(data_shell *datash, char *msg, char *error, char *ve
 char *shell_no_err_found(data_shell *datash);
 char *shell_exit_error(data_shell *datash);
 char *shell_env_error(data_shell *datash);
-char *denied_path_persmission(data_shell *datash);
+char *denied_path_permission(data_shell *datash);
 void shell_builtin_env_help(void);
 void shell_help_env_set(void);
 void unsetenv_shell_help(void);
-void help_builtin_general(void)
-void shell_help_exit(void)
+void help_builtin_general(void);
+void shell_help_exit(void);
 
 void shell_aux_help(void);
 void shell_help_alias(void);
@@ -169,4 +132,5 @@ char *ab_copy_info(char *name, char *value);
 void ab_set_env(char *name, char *value, data_shell *datash);
 int _setenv(data_shell *datash);
 int _unsetenv(data_shell *datash);
+
 #endif
