@@ -88,115 +88,25 @@ typedef struct inbuilt_s
 	int (*f)(sh_dt *shell_dt);
 } inbuilt_t;
 
-separate_lst *append_a_tail_node(separate_lst **lead, char sep);
-void free_separate_list(separate_lst **lead);
-ln_lst *append_tail_node(ln_lst **lead, char *line);
-void free_linked_list(ln_lst **lead);
-
-variable_r *attach_var_after_node(variable_r **lead, int lvar, char *var, int lval);
-void clear_var_list(variable_r **lead);
-
-char *string_concat(char *dest, const char *src);
-char *string_copy(char *dest, char *src);
-int string_compare(char *s1, char *s2);
-char *string_locate_chr_pos(char *s, char c);
-int string_get_prefix_len(char *s, char *accept);
-
-void copy_into_new_mem(void *new_pointer, const void *ptr, unsigned int size);
-void *realloc_memory(void *ptr, unsigned int prev_size, unsigned int new_size);
-char **realloc_memory_block(char **ptr, unsigned int prev_size, unsigned int new_size);
-
-char *string_duplicate(const char *s);
-int str_len(const char *s);
-int str_compare_chars(char str[], const char *dlm);
-char *string_strok_c(char str[], const char *dlm);
-int check_if_digit(const char *s);
-
-void reverse_string(char *s);
-
-int count_char_repetition(char *input_str, int i);
-int ab_check_syntax_err1(char *input_str, int i, char last);
-int initial_char(char *input_str, int *i);
-void show_syntax_error(sh_dt *shell_dt, char *input_str, int i, int bool);
-int check_syntax_err(sh_dt *shell_dt, char *input_str);
-
-char *erase_input_comment(char *in);
-void ab_loop_through(sh_dt *shell_dt);
-
-char *read_input_ln(int *i_eof);
-
-char *swap_char(char *input_str, int bool);
-void attach_sep_nodes(separate_lst **head_s, ln_lst **head_l, char *input_str);
-void go_to_next_cli(separate_lst **list_s, ln_lst **list_l, sh_dt *shell_dt);
-int split_cmd_separator(sh_dt *shell_dt, char *input_str);
-char **tokenize_input(char *input_str);
-
-void check_input_env(variable_r **h, char *in, sh_dt *data);
-int check_input_vars(variable_r **h, char *in, char *st, sh_dt *data);
-char *convert_string_mod_input(variable_r **lead, char *input_str, char *new_input, int nlen);
-char *invoke_var_replacement(char *input_str, sh_dt *shell_dt);
-
-void assign_var_get_ln(char **lineptr, size_t *n, char *buff, size_t j);
-ssize_t ab_shell_get_line(char **lineptr, size_t *n, FILE *strm);
-
-int execute_builtins(sh_dt *shell_dt);
-
-int check_if_current_dir(char *path, int *i);
-char *ab_shell_w(char *cmd, char **s_env);
-int is_executable_cmd(sh_dt *shell_dt);
-int inspect_cmd_error_exists(char *dir, sh_dt *shell_dt);
-int execute_cmd_input(sh_dt *shell_dt);
-
-char *ab_shell_extract_env(const char *name, char **s_env);
-int display_shell_env(sh_dt *shell_dt);
-
-char *info_cpy_create_alias(char *name, char *value);
-void shell_set_environ(char *name, char *value, sh_dt *shell_dt);
-int shell_setenv_var(sh_dt *shell_dt);
-int ab_shell_unset_env(sh_dt *shell_dt);
-
-void ab_cd_current_dir(sh_dt *shell_dt);
-void cd_inputted_dir(sh_dt *shell_dt);
-void ab_cd_previous_dir(sh_dt *shell_dt);
-void ab_cd_to_dire_home(sh_dt *shell_dt);
-
-int cd_change_curr_dir(sh_dt *shell_dt);
-
-int (*shell_print_cmd_arg(char *cmd))(sh_dt *shell_dt);
-
-int exec_exit_shell(sh_dt *shell_dt);
-
-int get_interger_length(int n);
-char *convert_int_to_string(int n);
-int convert_string_to_int(char *s);
-
-char *string_concat_cd_err(sh_dt *, char *, char *, char *);
-char *ab_obtain_cd_err(sh_dt *shell_dt);
-char *ab_err_not_found(sh_dt *shell_dt);
-char *ab_err_exit_shell(sh_dt *shell_dt);
-
-char *handle_alias_err(char **argum);
-char *ab_handle_err_env(sh_dt *shell_dt);
-char *handle_syntax_err(char **argum);
-char *handle_permis_err(char **argum);
-char *handle_denied_path_err(sh_dt *shell_dt);
-
-int handle_get_builtin_err(sh_dt *shell_dt, int eval);
-
-void handle_interrupt_signal(int sig_handler);
-
-void ab_shell_env_info(void);
-void ab_shell_setenv_help(void);
-void ab_shell_unsetenv_help(void);
-void ab_shell_help_general(void);
-void exit_shell_help(void);
-
-void ab_help_shell(void);
-void shell_alias_help_builtin(void);
-void ab_shell_cd_help(void);
-void ab_clear_data(sh_dt *shell_dt);
-void ab_set_data(sh_dt *shell_dt, char **avg);
-
-int shell_get_builtin_msg(sh_dt *shell_dt);
-
+char *shell_char_swap(char *input, int bool);
+void shell_add_node_sep(sep_list **head_s, line_list **head_l, char *input);
+void shell_next_cmd(sep_list **list_s, line_list **list_l, data_shell *datash);
+int shell_cmd_split(data_shell *datash, char *input);
+char **shell_split_line(char *input);
+void shell_set_struct_data(data_shell *datash, char **av);
+void shell_envir_checker(r_var **h, char *in, data_shell *data);
+int shell_var_checker(r_var **h, char *in, char *st, data_shell *data);
+char *shell_new_input(r_var **head, char *input, char *new_input, int nlen);
+char *shell_var_rep(char *input, data_shell *datash);
+char *shell_line_reader(int *i_eof);
+char *shell_no_arguments(char *in);
+void shell_loop_through_data(data_shell *datash);
+void shell_get_sigint(int sig);
+void shell_retrive_line(char **lineptr, size_t *n, char *buffer, size_t j);
+int shell_get_error(data_shell *datash, int eval);
+int (*shell_get_builtins(char *cmd))(data_shell *);
+void shell_free_data_held(data_shell *datash);
+int ab_exit_shell(data_shell *datash);
+int ab_exec_line(data_shell *datash);
+int shell_current_dir_checker(char *path, int *i);
 #endif
