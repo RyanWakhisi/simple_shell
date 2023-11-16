@@ -1,92 +1,96 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef _MAIN_
+#define _MAIN_
+
 #include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <sys/stat.h>
-#include <errno.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <limits.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <errno.h>
+
 #define BUFSIZE 1024
 #define TOK_BUFSIZE 128
 #define TOK_DELIM " \t\r\n\a"
 
+/* is a variable pointing to an array of pointers to strings called the "environment" */
 extern char **environ;
 
+
 /**
- * struct data - structure with data runtime data
- * @avg: arg vector
- * @input_str: user written command line
- * @argum: argum of the command line
- * @exe_status: last exe_status of the shell
- * @cmd_count: lines cmd_count
- * @s_env: shell environment variable
- * @proc_id: shell process ID
+ * struct data - it is a structure that contains all relevant data on runtime
+ * @av: is an argument vector
+ * @input: is a command line written by the user
+ * @args: are the tokens of the command line
+ * @status: is the last status of the shell
+ * @counter: is the lines counter
+ * @_environ: the environment variable
+ * @pid: the process ID of the shell
  */
 typedef struct data
 {
-	char **avg;
-	char *input_str;
-	char **argum;
-	int exe_status;
-	int cmd_count;
-	char **s_env;
-	char *proc_id;
-} sh_dt;
+	char **av;
+	char *input;
+	char **args;
+	int status;
+	int counter;
+	char **_environ;
+	char *pid;
+} data_shell;
 
 /**
- * struct separate_lst_s - single linked list
- * @separator_c: ; | &
- * @nxt: nxt node
+ * struct sep_list_s - single linked list
+ * @separator: ; | &
+ * @next: next node
  * Description: single linked list to store separators
  */
-typedef struct separate_lst_s
+typedef struct sep_list_s
 {
-	char separator_c;
-	struct separate_lst_s *nxt;
-} separate_lst;
+	char separator;
+	struct sep_list_s *next;
+} sep_list;
 
 /**
- * struct ln_lst_s - singly linked list
+ * struct line_list_s - single linked list
  * @line: command line
- * @nxt: nxt node
- * Description: list to store command lines
+ * @next: next node
+ * Description: single linked list to store command lines
  */
-typedef struct ln_lst_s
+typedef struct line_list_s
 {
 	char *line;
-	struct ln_lst_s *nxt;
-} ln_lst;
+	struct line_list_s *next;
+} line_list;
 
 /**
- * struct rvariable_lst - singly linked list
- * @len_var: variable string_length
+ * struct r_var_list - single linked list
+ * @len_var: length of the variable
  * @val: value of the variable
- * @len_val:  value string_length
- * @nxt: nxt node
- * Description: singly linked list for storing var
+ * @len_val: length of the value
+ * @next: next node
+ * Description: single linked list to store variables
  */
-typedef struct rvariable_lst
+typedef struct r_var_list
 {
 	int len_var;
 	char *val;
 	int len_val;
-	struct rvariable_lst *nxt;
-} variable_r;
+	struct r_var_list *next;
+} r_var;
 
 /**
- * struct inbuilt_s - Builtin struct for cmd args.
- * @name: The name of the command builtin
- * @f: pointer function to data type.
+ * struct builtin_s - Builtin struct for command args.
+ * @name: The name of the command builtin i.e cd, exit, env
+ * @f: data type pointer function.
  */
-typedef struct inbuilt_s
+typedef struct builtin_s
 {
 	char *name;
-	int (*f)(sh_dt *shell_dt);
-} inbuilt_t;
+	int (*f)(data_shell *datash);
+} builtin_t;
 
 char *shell_char_swap(char *input, int bool);
 void shell_add_node_sep(sep_list **head_s, line_list **head_l, char *input);
